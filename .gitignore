@@ -1,0 +1,4 @@
+/build
+*.pb.*
+/third_party
+/.vscode
