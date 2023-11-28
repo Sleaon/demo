@@ -1,10 +1,9 @@
 #ifndef ECHO_OPTIONS_H_
 #define ECHO_OPTIONS_H_
 struct Options{
- int port;
 };
 
-struct EngineOptions{
+struct AppOptions{
  int argc;
 char** argv;
 };

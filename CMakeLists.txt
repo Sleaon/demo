@@ -1,19 +1,21 @@
 cmake_minimum_required(VERSION 3.5)
 project(seastartest C CXX)
+SET(ROOT_DIR ${PROJECT_SOURCE_DIR})
 SET(CMAKE_C_STANDARD 17)
 SET(CMAKE_CXX_STANDARD 20)
 SET(CMAKE_CXX_FLAGS "-Wall")
-set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 set(ABSL_ENABLE_INSTALL ON)
-add_subdirectory(third_party/seastar)
-include(FetchContent)
-FetchContent_Declare(
-  gRPC
-  GIT_REPOSITORY ssh://git@ssh.github.com:443/grpc/grpc.git 
-  GIT_TAG        v1.59.2
-)
-set(FETCHCONTENT_QUIET OFF)
-FetchContent_MakeAvailable(gRPC)
+add_subdirectory(${ROOT_DIR}/third_party/seastar)
+target_compile_options(seastar PRIVATE -w)
+add_subdirectory(${ROOT_DIR}/third_party/grpc)
+# include(FetchContent)
+# FetchContent_Declare(
+#   gRPC
+#   GIT_REPOSITORY ssh://git@ssh.github.com:443/grpc/grpc.git 
+#   GIT_TAG        v1.59.2
+# )
+# set(FETCHCONTENT_QUIET OFF)
+# FetchContent_MakeAvailable(gRPC)
 
 
 file(GLOB PROTOS "${CMAKE_CURRENT_SOURCE_DIR}/*.proto")
@@ -46,7 +48,7 @@ set(CLIENT_SRC
 
 set(SEASTAR_SRC 
     ${ROOT_DIR}/echo_server_tf.cc
-    ${ROOT_DIR}/seastar_engine.cc
+    ${ROOT_DIR}/seastar_app.cc
 )
 
 # add_executable(demo_server ${SERVER_SRC} ${PROTO_SRCS})
@@ -59,7 +61,7 @@ set(SEASTAR_SRC
 
 add_executable(demo_server_seastar main.cc ${SEASTAR_SRC} ${PROTO_SRCS})
 target_include_directories(demo_server_seastar PUBLIC .)
-target_link_libraries(demo_server_seastar Seastar::seastar grpc++)
+target_link_libraries(demo_server_seastar Seastar::seastar grpc++ fmt boost)
 
 add_executable(demo_client_seastar client_main.cc ${SEASTAR_SRC} ${PROTO_SRCS})
 target_include_directories(demo_client_seastar PUBLIC .)

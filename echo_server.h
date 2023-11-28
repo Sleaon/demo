@@ -12,11 +12,7 @@
 
 #include "echo.pb.h"
 
-#ifdef BAZEL_BUILD
-#include "examples/protos/helloworld.grpc.pb.h"
-#else
 #include "echo.grpc.pb.h"
-#endif
 
 using grpc::Server;
 using grpc::ServerAsyncResponseWriter;
