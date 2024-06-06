@@ -14,4 +14,4 @@ set(TEST_SRC
 # add_executable(rpc_test ${PROTO_SRCS} ${SEASTAR_SRC})
 add_executable(test ${TEST_SRC})
 # target_include_directories(rpc_test PUBLIC . ${Protobuf_INCLUDE_DIRS})
- target_link_libraries(test PRIVATE nlohmann_json::nlohmann_json)
+ # target_link_libraries(test PRIVATE nlohmann_json::nlohmann_json)
